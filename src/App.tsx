@@ -28,8 +28,12 @@ function App() {
         
     
 
+    
 
-
+    <TileLayer
+    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+  />
     {locations.map((location)=>(
       <Marker position={location.position as [number, number]} icon={GetIcon(location.size, location.icon)}>
           <Popup>
@@ -37,7 +41,6 @@ function App() {
          </Popup>
      </Marker>
     ))}
-        
     
 
 
