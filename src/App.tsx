@@ -46,7 +46,7 @@ function App() {
 </MapContainer>
 
 
-    <label className="custom-file-upload" z-index={1000}>
+        <label className="custom-file-upload">
             <input type="file" id="img-upload" accept="image/*" title=" "/>
             Upload Image
         </label>
