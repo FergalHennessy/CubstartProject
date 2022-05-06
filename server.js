@@ -4,7 +4,11 @@ const morgan = require('morgan');
 const path = require('path');
 const app = express();
 const cors = require('cors');
+const multer = require('multer');
+const upload = multer({dest: __dirname + '/uploads/images'});
 const PORT = process.env.PORT || 8080;
+
+
 
 const routes = require('./routes/api');
 
