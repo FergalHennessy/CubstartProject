@@ -49,7 +49,7 @@ class App extends React.Component {
     if(!posts.length) return null;
 
     return posts.map((post, index) =>(
-      <div>key={index}
+      <div key={index}>
         <h3>{post.title}</h3>
         <p>{post.body}</p>
       </div>
@@ -115,7 +115,7 @@ class App extends React.Component {
 
 </MapContainer>
 
-        <form onSubmit={this.submit}>
+        <form onSubmit={this.submit} action="/upload" method="post" encType="multipart/form-data">
           <div className="form-input">
             <input 
               type="text"
