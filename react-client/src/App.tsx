@@ -139,7 +139,7 @@ class App extends React.Component {
             </textarea>
           </div>
           <div className="form-input">
-          <input className="file" type="file" id="img-upload" accept="image/*" title=" " />
+          <input type="file" id="img-upload file" accept="image/*" title=" " />
           </div>
           <button>Submit</button>
         </form>
