@@ -115,30 +115,43 @@ class App extends React.Component {
 
 </MapContainer>
 
-
-
-
-
-
-        
         <form onSubmit={this.submit}>
-        <div className="form-input">
-          <input type="text" name="title" value={this.state.title} onChange = {this.handleChange} placeholder="Enter your title"/>
-        </div>
-        <div className="form-input">
-          <textarea name="body" cols={30} value={this.state.body} onChange = {this.handleChange} rows={10}></textarea>
-        </div>
-        <div className="form-input">
-          <input type="submit" name="image_upload" value="Upload" onChange = {this.handleChange} />
-
+          <div className="form-input">
+            <input 
+              type="text"
+              name="title"
+              placeholder="Title"
+              value={this.state.title}
+              onChange={this.handleChange}
+            />
+          </div>
+          <div className="form-input">
+            <textarea
+              placeholder="body"
+              name="body"
+              cols="30"
+              rows="10"
+              value={this.state.body}
+              onChange={this.handleChange}
+            >
+              
+            </textarea>
+          </div>
+          <div className="form-input">
           <input type="file" id="img-upload" accept="image/*" title=" "/>
-        </div>
+          </div>
+          <button>Submit</button>
         </form>
+
+
+
+
+
         <div className = "blog-">
           {this.displayBlogPost(this.state.posts)}
         </div>
 
-
+        
       </>
   );
 }
