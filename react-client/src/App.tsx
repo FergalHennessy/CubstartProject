@@ -34,7 +34,7 @@ class App extends React.Component {
   }
 
   getBlogPost = () =>{
-    axios.get('http://localhost:8080/api')
+    axios.get('/api')
       .then((response) => {
         const data = response.data;
         this.setState({posts: data});
@@ -75,7 +75,7 @@ class App extends React.Component {
     };
 
     axios({
-      url: 'http://localhost:8080/api/save',
+      url: '/api/save',
       method: 'POST',
       data: payload
     }).then(() => {
@@ -133,8 +133,6 @@ class App extends React.Component {
 
           <input type="file" id="img-upload" accept="image/*" title=" "/>
         </div>
-       
-        <button>Submit</button>
         </form>
         <div className = "blog-">
           {this.displayBlogPost(this.state.posts)}
