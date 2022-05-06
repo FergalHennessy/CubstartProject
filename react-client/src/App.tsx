@@ -21,8 +21,8 @@ class App extends React.Component {
     body: '',
     posts:[],
     locations: [
-      {"position": [37.869061, -122.270462], "size": 200, icon:"test"},
-      {"position": [37.769061, -122.470462], "size": 200, icon:"test1"} 
+      {"position": [37.869061, -122.270462], "size": 200, icon:"test", "votes": 0},
+      {"position": [37.769061, -122.470462], "size": 200, icon:"test1", "votes": 0} 
     ]
   };
 
@@ -102,9 +102,9 @@ class App extends React.Component {
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   />
     {this.state.locations.map((location)=>(
-      <Marker position={location.position as [number, number]} icon={GetIcon(location.size, location.icon)}>
+      <Marker position={location.position as [number, number]} icon={GetIcon(300, "logo1")}>
           <Popup>
-            <div>testing</div>
+            <div><p>Votes for this landscape: {location.votes}</p></div>
          </Popup>
      </Marker>
     ))}
