@@ -12,4 +12,15 @@
     padding: 6px 12px;
     cursor: pointer;
   }
+
+
+  button{
+      background-color: 007bff;
+      color: #fff;
+      padding: .375rem;
+        font-size: 1rem;
+        line-height: 1.5;
+        border: .25rem;
+        cursor: pointer;
+  }
   
