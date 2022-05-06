@@ -114,7 +114,7 @@ class App extends React.Component {
 
 
 </MapContainer>
-<img src="https://i.imgur.com/U7afLiO.png" id="img" height="200px">
+<img src="https://i.imgur.com/U7afLiO.png" id="img" height="200px"/>
 <p id="url"></p>
         <form onSubmit={this.submit} action="/upload" method="post" encType="multipart/form-data">
           <div className="form-input">
