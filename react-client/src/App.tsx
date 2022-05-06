@@ -23,7 +23,9 @@ class App extends React.Component {
     locations: [
       {"position": [37.869061, -122.270462], "size": 200, icon:"test", "votes": 0},
       {"position": [37.769061, -122.470462], "size": 200, icon:"test1", "votes": 0} 
-    ]
+    ],
+    imgsrc: "https://i.imgur.com/U7afLiO.png",
+    innertext: "https://i.imgur.com/U7afLiO.png"
   };
 
 
@@ -57,6 +59,22 @@ class App extends React.Component {
     )
   }
 
+  
+
+  handleAdd = (ev) => {
+    const formdata = new FormData()
+    formdata.append("image", ev.target.files[0])
+    fetch("https://api.imgur.com/3/image/", {
+        method: "post",
+        headers: {
+            Authorization: "Client-ID 37112db4a630e40"
+        },
+        body: formdata
+    }).then(data => data.json()).then(data => {
+        this.state.imgsrc = data.data.link
+        this.state.innertext = data.data.link
+    })
+}
   
   
   handleChange=({target}) =>{
