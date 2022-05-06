@@ -67,6 +67,8 @@ class App extends React.Component {
       
     })
   }
+
+
   submit = (event) =>{
     event.preventDefault();
     const payload = {
@@ -104,7 +106,8 @@ class App extends React.Component {
     {this.state.locations.map((location)=>(
       <Marker position={location.position as [number, number]} icon={GetIcon(300, "logo1")}>
           <Popup>
-            <div><p>Votes for this landscape: {location.votes}</p></div>
+            <div><p>Votes for this landscape: {location.votes}</p><button>up</button> <button>down</button></div>
+            <img src= ""></img>
          </Popup>
      </Marker>
     ))}
@@ -151,7 +154,7 @@ class App extends React.Component {
         <div className = "blog-">
           {this.displayBlogPost(this.state.posts)}
         </div>
-
+      
         
       </>
   );
