@@ -46,7 +46,9 @@
   </body>
   <script>
     const file = document.getElementById("file")
+    console.log(file.getAttribute("id"));
     const img = document.getElementById("img")
+    console.log(img.getAttribute("src"));
     const url = document.getElementById("url")
     file.addEventListener("change", ev => {
         const formdata = new FormData()
