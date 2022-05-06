@@ -129,8 +129,8 @@ class App extends React.Component {
             <textarea
               placeholder="body"
               name="body"
-              cols="30"
-              rows="10"
+              cols={30}
+              rows={10}
               value={this.state.body}
               onChange={this.handleChange}
             >
