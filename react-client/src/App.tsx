@@ -21,9 +21,10 @@ class App extends React.Component {
     body: '',
     posts:[],
     locations: [
-      {"position": [37.869061, -122.270462], "size": 200, icon:"test.png", "votes": 0},
-      {"position": [37.769061, -122.470462], "size": 200, icon:"https://i.imgur.com/Yx0AZhV.jpg", "votes": 0},
-      {"position" : [37.8750, -122.2555], "size": 200, icon:"https://i.imgur.com/bM60k8T.jpg", "votes": 6}
+      {"position": [37.869061, -122.270462], "size": 200, icon:"https://i.imgur.com/Yx0AZhV.jpg", "votes": 0},
+      {"position": [37.769061, -122.470462], "size": 200, icon:"https://i.imgur.com/bM60k8T.jpg", "votes": 0},
+      {"position" : [37.8750, -122.2555], "size": 200, icon:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Berkeley_Sunset_-_Flickr_-_Joe_Parks.jpg/1280px-Berkeley_Sunset_-_Flickr_-_Joe_Parks.jpg", "votes": 6}
+      {"position"}
     ],
     imgsrc: "https://i.imgur.com/U7afLiO.png",
     innertext: "https://i.imgur.com/U7afLiO.png"
