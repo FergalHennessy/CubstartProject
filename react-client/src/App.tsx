@@ -22,7 +22,8 @@ class App extends React.Component {
     posts:[],
     locations: [
       {"position": [37.869061, -122.270462], "size": 200, icon:"test", "votes": 0},
-      {"position": [37.769061, -122.470462], "size": 200, icon:"test1", "votes": 0} 
+      {"position": [37.769061, -122.470462], "size": 200, icon:"test1", "votes": 0},
+      {"position" : [37.8750, 122.2555], "size": 200, icon:"stern", "votes": 6}
     ],
     imgsrc: "https://i.imgur.com/U7afLiO.png",
     innertext: "https://i.imgur.com/U7afLiO.png"
@@ -133,10 +134,11 @@ class App extends React.Component {
     {this.state.locations.map((location)=>(
       <Marker position={location.position as [number, number]} icon={GetIcon(300, "logo1")}>
           <Popup>
-            <div><p>Votes for this landscape: {location.votes}</p>
+            <div><p>Votes for this landscape: {location.votes} </p>
+            <img src= {"./Images/" + location.icon}/>
             <button onClick={this.onClickPlus}
             >up</button> <button onClick={this.onClickMinus}>down</button></div>
-            <img src= ""></img>
+            
          </Popup>
      </Marker>
     ))}
