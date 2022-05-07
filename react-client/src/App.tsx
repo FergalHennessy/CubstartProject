@@ -108,7 +108,7 @@ class App extends React.Component {
 
   onClickPlus(e) {
     
-    this.setState({locations: this.state.locations.map((location) => { location.position,  200, location.icon,  location.votes+1})});
+    this.setState({locations: this.state.locations.map((location) =>( location.position,  200, location.icon,  location.votes+1))});
   }
 
   onClickMinus(e){
