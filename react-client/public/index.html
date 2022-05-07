@@ -43,26 +43,27 @@
       To begin the development, run `npm start` or `yarn start`.
       To create a production bundle, use `npm run build` or `yarn build`.
     -->
+    <script>
+      const file = document.getElementById("file")
+      console.log(file.getAttribute("id"));
+      const img = document.getElementById("img")
+      console.log(img.getAttribute("src"));
+      const url = document.getElementById("url")
+      file.addEventListener("change", ev => {
+          const formdata = new FormData()
+          formdata.append("image", ev.target.files[0])
+          fetch("https://api.imgur.com/3/image/", {
+              method: "post",
+              headers: {
+                  Authorization: "Client-ID 37112db4a630e40"
+              },
+              body: formdata
+          }).then(data => data.json()).then(data => {
+              img.src = data.data.link
+              url.innerText = data.data.link
+          })
+      })
+    </script>
   </body>
-  <script>
-    const file = document.getElementById("file")
-    console.log(file.getAttribute("id"));
-    const img = document.getElementById("img")
-    console.log(img.getAttribute("src"));
-    const url = document.getElementById("url")
-    file.addEventListener("change", ev => {
-        const formdata = new FormData()
-        formdata.append("image", ev.target.files[0])
-        fetch("https://api.imgur.com/3/image/", {
-            method: "post",
-            headers: {
-                Authorization: "Client-ID 37112db4a630e40"
-            },
-            body: formdata
-        }).then(data => data.json()).then(data => {
-            img.src = data.data.link
-            url.innerText = data.data.link
-        })
-    })
-  </script>
+  
 </html>
