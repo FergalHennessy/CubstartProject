@@ -135,8 +135,8 @@ class App extends React.Component {
 
 
 </MapContainer>
-<img src="https://i.imgur.com/U7afLiO.png" id="img" height="200px"/>
-<p id="url"></p>
+<img src={this.state.imgsrc} id="img" height="200px"/>
+<p id="url">{this.state.innertext}</p>
         <form onSubmit={this.submit} action="/upload" method="post" encType="multipart/form-data">
           <div className="form-input">
             <input 
@@ -160,7 +160,7 @@ class App extends React.Component {
             </textarea>
           </div>
           <div className="form-input">
-          <input type="file" id="img-upload file" accept="image/*" title=" " />
+          <input type="file" id="img-upload file" accept="image/*" title=" " onChange={this.handleAdd}/>
           </div>
           <button>Submit</button>
         </form>
