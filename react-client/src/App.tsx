@@ -23,8 +23,7 @@ class App extends React.Component {
     locations: [
       {"position": [37.869061, -122.270462], "size": 200, icon:"https://i.imgur.com/Yx0AZhV.jpg", "votes": 0},
       {"position": [37.769061, -122.470462], "size": 200, icon:"https://i.imgur.com/bM60k8T.jpg", "votes": 0},
-      {"position" : [37.8750, -122.2555], "size": 200, icon:"https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Berkeley_Sunset_-_Flickr_-_Joe_Parks.jpg/1280px-Berkeley_Sunset_-_Flickr_-_Joe_Parks.jpg", "votes": 6}
-      {"position"}
+      {"position" : [37.8750, -122.2555], "size": 200, icon:"https://i.imgur.com/nfXzOFg.jpeg", "votes": 6},
     ],
     imgsrc: "https://i.imgur.com/U7afLiO.png",
     innertext: "https://i.imgur.com/U7afLiO.png"
@@ -95,6 +94,7 @@ class App extends React.Component {
       title: this.state.title,
       body: this.state.body
     };
+    this.forceUpdate();
 
     axios({
       url: '/api/save',
@@ -136,7 +136,7 @@ class App extends React.Component {
       <Marker position={location.position as [number, number]} icon={GetIcon(300, "logo1")}>
           <Popup>
             <div><p>Votes for this landscape: {location.votes} </p>
-            <img src={location.icon}/>
+            <img src={location.icon} height="200"/>
             <button onClick={this.onClickPlus}
             >up</button> <button onClick={this.onClickMinus}>down</button></div>
             
@@ -149,6 +149,7 @@ class App extends React.Component {
 
 
 </MapContainer>
+<h1>Scroll down to upload custom image to imgur!</h1>
 <img src={this.state.imgsrc} id="img" height="200px"/>
 <p id="url">{this.state.innertext}</p>
         <form onSubmit={this.submit} action="/upload" method="post" encType="multipart/form-data">
