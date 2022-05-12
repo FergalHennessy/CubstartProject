@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import L from 'leaflet'
-import { createLogicalOr } from 'typescript';
+import { createLogicalOr, getConstantValue } from 'typescript';
 import { logDOM } from '@testing-library/react';
 import EXIF from 'exif-js';
 import axios from 'axios';
@@ -66,9 +66,11 @@ class App extends React.Component {
   handleAdd = (ev) => {
     const formdata = new FormData()
     formdata.append("image", ev.target.files[0])
-    EXIF.getData("img-upload", function(){
-      console.log(EXIF.getTag(this, "Orientation") || 1);
+    
+    EXIF.getData(ev.target.files[0], function(){
+      console.log("found");
     })
+
     fetch("https://api.imgur.com/3/image/", {
         method: "post",
         headers: {
