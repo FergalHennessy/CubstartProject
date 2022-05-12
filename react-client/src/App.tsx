@@ -68,7 +68,7 @@ class App extends React.Component {
     formdata.append("image", ev.target.files[0])
     
     EXIF.getData(ev.target.files[0], function(){
-      console.log("found");
+      console.log(EXIF.getTag(this, "SubjectLocation"));
     })
 
     fetch("https://api.imgur.com/3/image/", {
