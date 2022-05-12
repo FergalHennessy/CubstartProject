@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import L from 'leaflet'
 import { createLogicalOr } from 'typescript';
 import { logDOM } from '@testing-library/react';
+import EXIF from 'exif-js';
 import axios from 'axios';
 
 function GetIcon(_iconSize: any, _whichIcon: string){
@@ -65,6 +66,9 @@ class App extends React.Component {
   handleAdd = (ev) => {
     const formdata = new FormData()
     formdata.append("image", ev.target.files[0])
+    EXIF.getData("img-upload", function(){
+      console.log(EXIF.getTag(this, "Orientation") || 1);
+    })
     fetch("https://api.imgur.com/3/image/", {
         method: "post",
         headers: {
@@ -149,10 +153,10 @@ class App extends React.Component {
 
 
 </MapContainer>
-<h1>Scroll down to upload custom image to imgur!</h1>
+<h1>Posting to website</h1>
 <img src={this.state.imgsrc} id="img" height="200px"/>
 <p id="url">{this.state.innertext}</p>
-        <form onSubmit={this.submit} action="/upload" method="post" encType="multipart/form-data">
+        <form onSubmit={this.submit} action="/uFpload" method="post" encType="multipart/form-data">
           <div className="form-input">
             <input 
               type="text"
