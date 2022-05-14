@@ -37,7 +37,7 @@ class App extends React.Component {
       {"position": [37.769061, -122.470462], "size": 200, icon:"https://i.imgur.com/bM60k8T.jpg", "votes": 0},
       {"position" : [37.8750, -122.2555], "size": 200, icon:"https://i.imgur.com/nfXzOFg.jpeg", "votes": 6},
     ],
-    imgsrc: "https://i.imgur.com/U7afLiO.png",
+    imgsrc: "",
     innertext: "https://i.imgur.com/U7afLiO.png"
   };
 
@@ -133,7 +133,7 @@ class App extends React.Component {
   
 
   onClickPlus(e) {
-    this.setState({locations: this.state.locations.map((location) =>( location.position,  200, location.icon,  location.votes+1))});
+    console.log(e);
     console.log(this.state);
   }
 
