@@ -13,18 +13,6 @@ function GetIcon(_iconSize: any, _whichIcon: string){
   })
 }
 
-function readImage(file, img){
-  if(file.type && !file.type.startsWith('image/')){
-    console.log('File is not an image ', file.type, file);
-    return;
-  }
-
-  const reader = new FileReader();
-  reader.addEventListener('load', (event) => {
-    img.src = event.target.result;
-  });
-}
-
 
 class App extends React.Component {
 
@@ -37,7 +25,7 @@ class App extends React.Component {
       {"position": [37.769061, -122.470462], "size": 200, icon:"https://i.imgur.com/bM60k8T.jpg", "votes": 0},
       {"position" : [37.8750, -122.2555], "size": 200, icon:"https://i.imgur.com/nfXzOFg.jpeg", "votes": 6},
     ],
-    imgsrc: "",
+    imgsrc: "https://i.imgur.com/U7afLiO.png",
     innertext: "https://i.imgur.com/U7afLiO.png"
   };
 
@@ -74,10 +62,25 @@ class App extends React.Component {
   
 
   handleAdd = (ev) => {
+    const formdata = new FormData()
+    formdata.append("image", ev.target.files[0])
     
+    /*
+    EXIF.getData(ev.target.files[0], function(){
+      console.log(EXIF.getTag(this, "SubjectLocation"));
+    })*/
+    exifr.gps(ev.target.files[0]).then(gps => console.log(gps), gps => console.log("failure to get gps"));
 
-    //
-
+    fetch("https://api.imgur.com/3/image/", {
+        method: "post",
+        headers: {
+            Authorization: "Client-ID 37112db4a630e40"
+        },
+        body: formdata
+    }).then(data => data.json()).then(data => {
+        this.state.imgsrc = data.data.link
+        this.state.innertext = data.data.link
+    })
 }
   
   
@@ -99,27 +102,6 @@ class App extends React.Component {
     };
     this.forceUpdate();
 
-
-
-    const formdata = new FormData()
-    formdata.append("image", event.target.files[0])
-    
-    
-    exifr.gps(event.target.files[0]).then(gps => console.log(gps), gps => console.log("failure to get gps"));
-
-    //fetching image data from imgur
-    fetch("https://api.imgur.com/3/image/", {
-        method: "post",
-        headers: {
-            Authorization: "Client-ID 37112db4a630e40"
-        },
-        body: formdata
-    }).then(data => data.json()).then(data => {
-        this.state.imgsrc = data.data.link
-        this.state.innertext = data.data.link
-    })
-
-
     axios({
       url: '/api/save',
       method: 'POST',
@@ -133,13 +115,12 @@ class App extends React.Component {
   
 
   onClickPlus(e) {
-    console.log(e);
-    console.log(this.state);
+    
+    this.setState({locations: this.state.locations.map((location) =>( location.position,  200, location.icon,  location.votes+1))});
   }
 
   onClickMinus(e){
     this.setState({locations: this.state.locations.map((location) => (location.position,  200, location.icon,  location.votes-1))});
-    console.log(this.state);
   }
   
   render(){
