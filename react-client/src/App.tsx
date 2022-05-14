@@ -2,9 +2,8 @@ import React from 'react';
 import './App.css';
 import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
 import L from 'leaflet'
-import { createLogicalOr, getConstantValue } from 'typescript';
-import { logDOM } from '@testing-library/react';
 import EXIF from 'exif-js';
+import exifr from 'exifr';
 import axios from 'axios';
 
 function GetIcon(_iconSize: any, _whichIcon: string){
@@ -29,7 +28,6 @@ class App extends React.Component {
     imgsrc: "https://i.imgur.com/U7afLiO.png",
     innertext: "https://i.imgur.com/U7afLiO.png"
   };
-
 
 
 
@@ -67,9 +65,11 @@ class App extends React.Component {
     const formdata = new FormData()
     formdata.append("image", ev.target.files[0])
     
+    /*
     EXIF.getData(ev.target.files[0], function(){
       console.log(EXIF.getTag(this, "SubjectLocation"));
-    })
+    })*/
+    exifr.gps(ev.target.files[0]).then(gps => console.log(gps), gps => console.log("failure to get gps"));
 
     fetch("https://api.imgur.com/3/image/", {
         method: "post",
