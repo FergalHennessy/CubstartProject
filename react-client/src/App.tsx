@@ -117,9 +117,9 @@ class App extends React.Component {
   }
   
 
-  onClickPlus(e) {
-    
-    this.setState({locations: this.state.locations.map((location) =>( location.position,  200, location.icon,  location.votes+1))});
+  onClickPlus(index) {
+      
+    this.setState(state => ({locations : this.state.locations.map((location, smallindex) => Object.assign({}, location, {votes: smallindex==index? location.votes+1:location.votes}))}));
   }
 
   onClickMinus(e){
@@ -141,13 +141,13 @@ class App extends React.Component {
     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   />
-    {this.state.locations.map((location)=>(
+    {this.state.locations.map((location, index)=>(
       <Marker position={location.position as [number, number]} icon={GetIcon(300, "logo1")}>
           <Popup>
             <div><p>Votes for this landscape: {location.votes} </p>
             <img src={location.icon} height="200"/>
-            <button onClick={this.onClickPlus}
-            >up</button> <button onClick={this.onClickMinus}>down</button></div>
+            <button onClick={() => this.onClickPlus(index)}>up</button>
+             <button onClick={this.onClickMinus}>down</button></div>
             
          </Popup>
      </Marker>
