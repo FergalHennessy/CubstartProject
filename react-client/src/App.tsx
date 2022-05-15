@@ -6,6 +6,8 @@ import EXIF from 'exif-js';
 import exifr from 'exifr';
 import axios from 'axios';
 
+
+
 function GetIcon(_iconSize: any, _whichIcon: string){
   return L.icon({
     iconUrl: require("./Images/" + _whichIcon + ".png"),
@@ -80,6 +82,7 @@ class App extends React.Component {
     }).then(data => data.json()).then(data => {
         this.state.imgsrc = data.data.link
         this.state.innertext = data.data.link
+        this.forceUpdate();
     })
 }
   
