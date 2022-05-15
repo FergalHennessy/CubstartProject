@@ -122,8 +122,8 @@ class App extends React.Component {
     this.setState(state => ({locations : this.state.locations.map((location, smallindex) => Object.assign({}, location, {votes: smallindex==index? location.votes+1:location.votes}))}));
   }
 
-  onClickMinus(e){
-    this.setState({locations: this.state.locations.map((location) => (location.position,  200, location.icon,  location.votes-1))});
+  onClickMinus(index){
+    this.setState(state => ({locations : this.state.locations.map((location, smallindex) => Object.assign({}, location, {votes: smallindex==index? location.votes-1:location.votes}))}));
   }
   
   render(){
@@ -145,9 +145,9 @@ class App extends React.Component {
       <Marker position={location.position as [number, number]} icon={GetIcon(300, "logo1")}>
           <Popup>
             <div><p>Votes for this landscape: {location.votes} </p>
-            <img src={location.icon} height="200"/>
+            <img src={location.icon} height="200"/><br/>
             <button onClick={() => this.onClickPlus(index)}>up</button>
-             <button onClick={this.onClickMinus}>down</button></div>
+             <button onClick={()=> this.onClickMinus(index)}>down</button></div>
             
          </Popup>
      </Marker>
