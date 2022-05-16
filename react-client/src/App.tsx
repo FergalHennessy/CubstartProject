@@ -210,12 +210,12 @@ class App extends React.Component {
 
         <div className = "blog-">
           {this.displayBlogPost(this.state.posts)}
+          {console.log(this.state)}
         </div>
       
         
       </>
   );
-  {this.getImagePost()}
 }
 }
 
