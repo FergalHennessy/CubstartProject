@@ -23,9 +23,9 @@ class App extends React.Component {
     body: '',
     posts:[],
     locations: [
-      {"position": [37.869061, -122.270462], "size": 200, icon:"https://i.imgur.com/Yx0AZhV.jpg", "votes": 0},
-      {"position": [37.769061, -122.470462], "size": 200, icon:"https://i.imgur.com/bM60k8T.jpg", "votes": 0},
-      {"position" : [37.8750, -122.2555], "size": 200, icon:"https://i.imgur.com/nfXzOFg.jpeg", "votes": 6},
+      {"position": [37.869061, -122.270462], "size": 200, "icon":"https://i.imgur.com/Yx0AZhV.jpg", "votes": 0},
+      {"position": [37.769061, -122.470462], "size": 200, "icon":"https://i.imgur.com/bM60k8T.jpg", "votes": 0},
+      {"position" : [37.8750, -122.2555], "size": 200, "icon":"https://i.imgur.com/nfXzOFg.jpeg", "votes": 6},
     ],
     imgsrc: "https://i.imgur.com/U7afLiO.png",
     innertext: "https://i.imgur.com/U7afLiO.png"
@@ -171,6 +171,7 @@ class App extends React.Component {
 
 
 </MapContainer>
+{this.getImagePost}
 <h1>Posting to website</h1>
 <img src={this.state.imgsrc} id="img" height="200px"/>
 <p id="url">{this.state.innertext}</p>
