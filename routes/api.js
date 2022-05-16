@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 
 const BlogPost = require('../models/blogPost');
+const ImagePost = require('../models/imagePost')
 
 
 router.get('/', (req, res) => {
@@ -13,7 +14,7 @@ router.get('/', (req, res) => {
             res.json(data)
         })
         .catch((error) => {
-            console.log('error: ', daerrorta)
+            console.log('error: ', error)
         });
 });
 
@@ -35,12 +36,12 @@ router.post('/save', (req, res) =>{
     
 })
 
-router.get('/thing', (req, res) => {
-    const data = {
-        username: 'luigi',
-        age: 99
-    };
-    res.json(data);
+router.get('/imagePosts', (req, res) => {
+    ImagePost.find({})
+        .then((data)=>{
+            console.log('IMAGEPOSTS:', data);
+            res.json(data);
+        }).catch((error) => {console.log("imagePost get error", error)});
 });
 
 

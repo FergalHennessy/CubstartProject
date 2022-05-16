@@ -49,6 +49,19 @@ class App extends React.Component {
       })
   }
 
+  getImagePost = () =>{
+    axios.get('/api/imagePosts')
+      .then((response) => {
+        const data = response.data;
+        this.setState({random: data});
+        console.log('ImagePosts received!')
+      })
+      .catch(() => {
+        alert('Error retrieving imagePosts!!');
+      })
+  }
+  
+
   displayBlogPost = (posts) =>{
     if(!posts.length) return null;
 
@@ -161,7 +174,7 @@ class App extends React.Component {
 <h1>Posting to website</h1>
 <img src={this.state.imgsrc} id="img" height="200px"/>
 <p id="url">{this.state.innertext}</p>
-        <form onSubmit={this.submit} action="/uFpload" method="post" encType="multipart/form-data">
+        <form onSubmit={this.submit} action="/upload" method="post" encType="multipart/form-data">
           <div className="form-input">
             <input 
               type="text"
