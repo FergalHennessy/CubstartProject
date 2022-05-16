@@ -35,6 +35,7 @@ class App extends React.Component {
 
   componentWillMount = ()=>{
     this.getBlogPost();
+    this.getImagePost();
   }
 
   getBlogPost = () =>{
