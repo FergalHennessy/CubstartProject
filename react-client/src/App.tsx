@@ -155,7 +155,7 @@ class App extends React.Component {
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   />
     {this.state.locations.map((location, index)=>(
-      <Marker position={location.position as [number, number]} icon={GetIcon(300, "logo1")}>
+      <Marker position={location.position as L.LatLngExpression} icon={GetIcon(300, "logo1")}>
           <Popup>
             <div><p>Votes for this landscape: {location.votes} </p>
             <img src={location.icon} height="200"/><br/>
@@ -171,7 +171,7 @@ class App extends React.Component {
 
 
 </MapContainer>
-{this.getImagePost}
+
 <h1>Posting to website</h1>
 <img src={this.state.imgsrc} id="img" height="200px"/>
 <p id="url">{this.state.innertext}</p>
@@ -214,6 +214,7 @@ class App extends React.Component {
         
       </>
   );
+  {this.getImagePost()}
 }
 }
 
