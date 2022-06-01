@@ -1,11 +1,15 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './App.css';
-import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet'
-import L from 'leaflet'
+import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
+import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import Login from './components/Login';
+import L from 'leaflet';
 import EXIF from 'exif-js';
 import exifr from 'exifr';
 import axios from 'axios';
 
+
+//TARGET: UPLOAD IMAGE -> CRETE POST ON IMGUR -> SEND TO DATABASE -> CREATE POST
 
 
 function GetIcon(_iconSize: any, _whichIcon: string){
@@ -16,12 +20,16 @@ function GetIcon(_iconSize: any, _whichIcon: string){
 }
 
 
+
+
 class App extends React.Component {
 
   state={
     title: '',
     body: '',
     posts:[],
+    token:0,
+    setToken: (token) => {this.state.token = token},
     locations: [
       {"position": [37.869061, -122.270462], "size": 200, "icon":"https://i.imgur.com/Yx0AZhV.jpg", "votes": 0},
       {"position": [37.769061, -122.470462], "size": 200, "icon":"https://i.imgur.com/bM60k8T.jpg", "votes": 0},
@@ -141,10 +149,14 @@ class App extends React.Component {
   }
   
   render(){
+
+  if(!this.state.token){
+    return <Login setToken= {(newToken : number) => {this.setState({token: this.state.token})}}/>
+  }
     
   return (
     <>
-    
+    {/*MAIN APPLICATION*/}
     <MapContainer center={[37.869061, -122.270462]} zoom={13} scrollWheelZoom={true}>
         
     
@@ -213,7 +225,8 @@ class App extends React.Component {
           {console.log(this.state)}
         </div>
       
-        
+        {/*ANY OTHER PAGES*/}
+
       </>
   );
 }

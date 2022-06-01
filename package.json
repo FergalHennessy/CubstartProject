@@ -33,6 +33,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
     "nodemon": "^2.0.16",
+    "react-router-dom": "^6.3.0",
     "react-social-login": "^3.4.15"
   }
 }
