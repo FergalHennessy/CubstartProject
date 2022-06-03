@@ -1,7 +1,11 @@
 import React from 'react';
 import './Login.css';
 
-export default function Login(){
+type Props = {
+    setToken: (token:number) => void
+  }
+
+export default function Login(props : Props){
     return(
         <div className= "login-wrapper">
         <form>
