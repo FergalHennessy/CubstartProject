@@ -15,7 +15,7 @@ const routes = require('./routes/api');
 const MONGODB_URI = 'mongodb+srv://fergalh:isthebest@cluster0.mjmfj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
 
-mongoose.connect(MONGODB_URI || 'mongodb://localhost/cubstartfinal', {
+mongoose.connect(MONGODB_URI || 'mongodb://localhost:8080/cubstartfinal', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 });
