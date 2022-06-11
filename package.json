@@ -44,6 +44,9 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.3",
-    "babel-plugin-transform-react-pug": "^7.0.1"
+    "babel-plugin-transform-react-pug": "^7.0.1",
+    "customize-cra": "^1.0.0",
+    "react-app": "^1.1.2",
+    "rewired": "^0.0.0"
   }
 }
