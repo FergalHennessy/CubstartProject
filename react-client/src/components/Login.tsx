@@ -16,7 +16,7 @@ async function loginUser(credentials) {
       }).then((data) => data.json());
 }
 
-
+//TODO : TRANSLATE JQUERY TO JAVASCRIPT
 
 
 export default function Login({ setToken }){
@@ -145,13 +145,13 @@ export default function Login({ setToken }){
   </div>
   <div className="pen-footer">
     <a
-      href="https://www.behance.net/gallery/30478397/Login-Form-UI-Library"
+      //href="https://www.behance.net/gallery/30478397/Login-Form-UI-Library"
       target="_blank"
     >
       <i className="material-icons">arrow_backward</i>View on Behance
     </a>
     <a
-      href="https://github.com/andyhqtran/UI-Library/tree/master/Login%20Form"
+      //href="https://github.com/andyhqtran/UI-Library/tree/master/Login%20Form"
       target="_blank"
     >
       View on Github<i className="material-icons">arrow_forward</i>
