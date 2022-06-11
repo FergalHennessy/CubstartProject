@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import PropTypes, { string } from 'prop-types';
-import './Login.css';
+import './Login.scss';
 import express from 'express';
 
 async function loginUser(credentials) {
