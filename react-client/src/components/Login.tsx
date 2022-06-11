@@ -33,7 +33,7 @@ export default function Login({ setToken }){
         console.log(token);                                 //what is our current token
     }
 
-    let panelOne = document.getElementsByClassName('form-panel two')[0].clientHeight;
+    //let panelOne = document.getElementsByClassName('form-panel two')[0].clientHeight;
     
     /*return(
         <div className= "login-wrapper">
