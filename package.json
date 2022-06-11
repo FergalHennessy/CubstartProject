@@ -9,8 +9,8 @@
     "build": "cd react-client && npm run build",
     "install-client": "cd react-client && npm install",
     "heroku-postbuild": "npm run install-client && npm run build",
-    "client": "cd react-client && npm start"
-
+    "client": "cd react-client && npm start",
+    "dev": "concurrently -n 'server,client' -c 'red,green'  \"nodemon server.js\" \"npm run client\""
   },
   "repository": {
     "type": "git",
@@ -32,8 +32,11 @@
     "mongoose": "^6.3.1",
     "morgan": "^1.10.0",
     "multer": "^1.4.4",
+    "node-fetch": "^3.2.5",
     "nodemon": "^2.0.16",
+    "prop-types": "^15.8.1",
     "react-router-dom": "^6.3.0",
     "react-social-login": "^3.4.15"
-  }
+  },
+  "proxy": "http://localhost:8080"
 }

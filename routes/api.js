@@ -44,5 +44,16 @@ router.get('/imagePosts', (req, res) => {
         }).catch((error) => {console.log("imagePost get error", error)});
 });
 
+router.get('/login', (req, res) => {
+    res.send ({
+        token: 'test123'
+    });
+    console.log(req);
+})
+
+router.post('/login', (req, res) => {
+    res.send(req.body);
+})
+
 
 module.exports = router;
