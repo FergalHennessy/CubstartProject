@@ -19,11 +19,12 @@ async function loginUser(credentials) {
 
 //TODO : TRANSLATE JQUERY TO JAVASCRIPT
 
-
+let flag = 0;
 
 export default function Login({ setToken }) {
   const [username, setUserName] = useState<string>();
-  const [password, setPassword] = useState<string>();
+  const [password, setPassword] = useState<string>(null);
+  const ref = useRef({panelTwo: 0, panelOne: 0, panelFlag: 0});
 
   //MANUALLY TRANSLATED JQUERY ANIMATIONS BEGIN HERE
 
@@ -39,33 +40,52 @@ export default function Login({ setToken }) {
       password
     });
     setToken(token);
-    console.log("TOKEN: " +token);                                 //what is our current token
+    console.log("TOKEN: " +token.username + " " + token.password);                                 //what is our current token
   }
-  /*
-    console.log('GETELEMENTBYCLASS: ' + document.getElementsByClassName('form-panel two')[0]);
-    var panelOne = document.querySelector('.form-panel.two').clientHeight,
-    panelTwo = document.querySelector('.form-panel.two')[0].scrollHeight;
-    console.log("PANELTWO: " + panelTwo);
-   document.querySelector('.form-panel.two :not(form-panel.two.active)').addEventListener('click', function(e) {
-    e.preventDefault();
-     document.querySelector('.form-toggle').classList.add('visible');
-    document.querySelector('.form-panel.one').classList.add('hidden');
-    document.querySelector('.form-panel.two').classList.add('active');
-    document.querySelector('.form').animate({
-      'height': panelTwo
-    }, 200);
-  });
-   document.querySelector('.form-toggle').addEventListener('click', function(e) {
-    e.preventDefault();
-    document.querySelector(this).classList.remove('visible');
-    document.querySelector('.form-panel.one').classList.remove('hidden');
-    document.querySelector('.form-panel.two').classList.remove('active');
-    document.querySelector('.form').animate({
-      'height': panelOne
-    }, 200);
-  });
 
-  */
+
+
+  useEffect(()=>{
+    var panelOne = document.getElementsByClassName('form-panel two')[0].clientHeight,
+    panelTwo = document.getElementsByClassName('form-panel two')[0].scrollHeight;
+    console.log("PANELTWO: " + panelTwo);
+
+    ref.current.panelTwo = panelTwo;
+    ref.current.panelOne = panelOne;
+    
+    let restingForms = [].filter.call(document.getElementsByClassName('form-panel two'), el => !(el.className.indexOf('active') >= 0));
+
+    console.log("restingForm: " + restingForms[0]);
+
+    for(let neededElement of (restingForms as HTMLCollectionOf<HTMLElement>)){
+      neededElement.addEventListener('click', function(e){
+        e.preventDefault();
+        document.getElementsByClassName('form-toggle')[0].classList.add('visible');
+        console.log("CLICKED OPEN AND " + document.getElementsByClassName('form-toggle')[0].classList);
+        document.getElementsByClassName('form-panel one')[0].classList.add('hidden');
+        document.getElementsByClassName('form-panel two')[0].classList.add('active');
+        (document.getElementsByClassName('form') as HTMLCollectionOf<HTMLElement>)[0].style.height = panelTwo.toString();
+        
+        ref.current.panelFlag = 1;
+      })
+    }
+
+    let formToggle = document.getElementsByClassName('form-toggle')[0];
+
+      formToggle.addEventListener('click', function(e){
+        e.preventDefault();        formToggle.classList.remove('visible');
+        console.log("CLICKED SHUT AND " + document.getElementsByClassName('form-toggle')[0].classList);
+        document.getElementsByClassName('form-panel one')[0].classList.remove('hidden');
+        document.getElementsByClassName('form-panel two')[0].classList.remove('active');
+        (document.getElementsByClassName('form') as HTMLCollectionOf<HTMLElement>)[0].style.height = panelOne.toString();
+
+        ref.current.panelFlag = 0;
+      })
+
+      console.log(document.getElementsByClassName('form')[0].clientHeight)
+  
+}, [])
+
   function handleTwo(){
     console.log("two pressed!");
   }
@@ -91,7 +111,7 @@ export default function Login({ setToken }) {
     <>
 
       {/* Form*/}
-      <div className="form">
+      <div className="form" style={{height: ref.current.panelFlag? ref.current.panelTwo: ref.current.panelOne}}>
         <div className={"form-toggle"} /> {/*changed from original*/}
         <div className={"form-panel one"}> {/*changed from original*/}
           <div className="form-header">
