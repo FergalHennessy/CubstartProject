@@ -137,7 +137,7 @@ body {
       outline: none;
       display: block;
       background: rgba($black, 0.1);
-      width: 100%;
+      width: 200%;
       border: 0;
       border-radius: 4px;
       box-sizing: border-box;
@@ -333,4 +333,9 @@ body {
 .cp-fab {
   background: $white !important;
   color: $accent !important;
+}
+
+
+form{
+  width: 90%
 }
