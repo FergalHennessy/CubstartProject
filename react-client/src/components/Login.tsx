@@ -4,9 +4,9 @@ import './Login.scss';
 import express from 'express';
 import e from 'express';
 
+
+//what to do on login request?
 async function loginUser(credentials) {
-
-
 
   return fetch('http://localhost:8080/api/login', {
     method: "POST",
@@ -14,6 +14,17 @@ async function loginUser(credentials) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(credentials),
+  }).then((data) => data.json());
+}
+
+//what to do on new user request?
+async function newUser(input){
+  return fetch('http://localhost:8080/api/newUser',{
+    method: "POST",
+    headers: {
+      "Content-Type" : "application/json"
+    },
+    body:JSON.stringify(input)
   }).then((data) => data.json());
 }
 
@@ -41,6 +52,17 @@ export default function Login({ setToken }) {
     });
     setToken(token);
     console.log("TOKEN: " +token.username + " " + token.password);                                 //what is our current token
+  }
+
+
+  //broken obviously
+  const handleUserSubmit = async e => {
+    e.preventDefault();
+    const userData = await newUser({
+      username,
+      password
+    });
+    console.log("USERDATA: " + userData.username + "password: " + userData.password);
   }
 
 
@@ -90,26 +112,8 @@ export default function Login({ setToken }) {
     console.log("two pressed!");
   }
 
-
-
-  /*return(
-      <div className= "login-wrapper">
-      <form onSubmit = {handleSubmit}>
-          <label>
-              <p>Username</p>
-              <input type="text" onChange = {e => setUserName(e.target.value)}/></label>
-          <label><p>Password</p>
-          <input type="text" onChange={e => setPassword(e.target.value)}/></label>
-          <div>
-          <button type='submit'>Button
-          </button>
-          </div>
-      </form>
-      </div>
-  )}*/
   return (
     <>
-
       {/* Form*/}
       <div className="form" style={{height: ref.current.panelFlag? ref.current.panelTwo: ref.current.panelOne}}>
         <div className={"form-toggle"} /> {/*changed from original*/}

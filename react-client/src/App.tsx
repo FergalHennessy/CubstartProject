@@ -61,6 +61,7 @@ class App extends React.Component {
 
   //on page load:
   componentWillMount = ()=>{
+    document.title = "🌇  Serendpitiy  🌇";
     this.getBlogPost();
     this.getImagePost();
   }
@@ -78,7 +79,7 @@ class App extends React.Component {
       })
   }
 
-  //getBlogPost fetches js objects from /api/imagePosts, then runs setState so that they are stored in the local State object Error retreiving data => error with database fetch.
+  //getImagePost fetches js objects from /api/imagePosts, then runs setState so that they are stored in the local State object Error retreiving data => error with database fetch.
   getImagePost = () =>{
     axios.get('/api/imagePosts')
       .then((response) => {
@@ -91,7 +92,7 @@ class App extends React.Component {
       })
   }
   
-
+  //array of posts becomes: jsx list of divs
   displayBlogPost = (posts) =>{
     if(!posts.length) return null;
 
@@ -105,15 +106,11 @@ class App extends React.Component {
   }
 
   
-
+  //what happens when you add the file? append image to formdata, post formdata to imgurand update imgsrc/innertext to the url returned.
   handleAdd = (ev) => {
     const formdata = new FormData()
     formdata.append("image", ev.target.files[0])
     
-    /*
-    EXIF.getData(ev.target.files[0], function(){
-      console.log(EXIF.getTag(this, "SubjectLocation"));
-    })*/
     exifr.gps(ev.target.files[0]).then(gps => console.log(gps), gps => console.log("failure to get gps"));
 
     fetch("https://api.imgur.com/3/image/", {
@@ -129,7 +126,7 @@ class App extends React.Component {
     })
 }
   
-  
+  //what happens when the values inside any textbox changes? setState name of the element to value of the element.
   handleChange=({target}) =>{
     const{name, value} = target;
 
@@ -139,7 +136,7 @@ class App extends React.Component {
     })
   }
 
-
+  //press the submit button => set payload as this.state.title, this.state.body. Push to /api/save?
   submit = (event) =>{
     event.preventDefault();
     const payload = {
@@ -159,9 +156,8 @@ class App extends React.Component {
     });
   }
   
-
-  onClickPlus(index) {
-      
+  //bullshit i wrote to make the buttons work
+  onClickPlus(index) {  
     this.setState(state => ({locations : this.state.locations.map((location, smallindex) => Object.assign({}, location, {votes: smallindex==index? location.votes+1:location.votes}))}));
   }
 
@@ -170,7 +166,7 @@ class App extends React.Component {
   }
   
   render(){
-
+  //no username/password in localStorage? load the Login component
   if(!this.state.token){
     const current = this;
     console.log("this.state.token: \n" + this.state.token.toString());
