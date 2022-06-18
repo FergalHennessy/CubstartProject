@@ -25,7 +25,10 @@ function GetIcon(_iconSize: any, _whichIcon: string){
 
 class App extends React.Component {
 
-
+  //state of application title and body are linked to the current post, 
+  //post is a collection of postObjects, token is the status of the username/password object, 
+  //locations is the location of the images, imgsrc is the selectionbox image.
+  
   state={
     title: '',
     body: '',
@@ -40,26 +43,29 @@ class App extends React.Component {
     innertext: "https://i.imgur.com/U7afLiO.png"
   };
 
-
+  //save username/password object to localStorage
   setToken(userToken, page){
-    sessionStorage.setItem('token', JSON.stringify(userToken));
+    localStorage.setItem('token', JSON.stringify(userToken));
     page.setState({token: userToken});
   }
+  //grep the locally stored username and password as a two-item object. {username, password}
   getToken(){
-    const tokenString = sessionStorage.getItem('token');
+    const tokenString = localStorage.getItem('token');
     const userToken = JSON.parse(tokenString);
-    return userToken?.token
+    console.log("GETTOKEN RETURNS: " + userToken);
+    return userToken
   }
 
    
   token = this.getToken();
 
-
+  //on page load:
   componentWillMount = ()=>{
     this.getBlogPost();
     this.getImagePost();
   }
 
+  //getBlogPost fetches js objects from /api, then runs setState so that they are stored in the local State object Error retreiving data => error with database fetch.
   getBlogPost = () =>{
     axios.get('/api')
       .then((response) => {
@@ -72,6 +78,7 @@ class App extends React.Component {
       })
   }
 
+  //getBlogPost fetches js objects from /api/imagePosts, then runs setState so that they are stored in the local State object Error retreiving data => error with database fetch.
   getImagePost = () =>{
     axios.get('/api/imagePosts')
       .then((response) => {
