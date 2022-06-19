@@ -66,17 +66,16 @@ router.post('/login', (req, res) => {
         if(error){
             res.status(500).json({msg: 'Sorry, internal server errors'});
         }
+    
         return res.json({
-            msg: 'you have created a new user! Username: ' + data.username + " Password: " + data.password,
-            username: token.username,
-            password: token.password
-        })
+            msg: "Current user has properties:", username: req.body.username, password: req.body.password
+        });
     })
 })
 
 //RECEIVE NEWUSER REQUEST =>
 router.post('/newUser', (req, res) => {
-    console.log('Login Request: ', req.body);
+    console.log('New User Request: ', req.body);
     const data = req.body;
 
     const newUser = new User(data)
@@ -87,7 +86,7 @@ router.post('/newUser', (req, res) => {
             res.status(500).json({msg: 'Sorry, internal server errors'});
         }
         return res.json({
-            msg: 'you have created a new user! Username: ' + data.username + " Password: " + data.password
+            msg: "Requesting new user with properties: ", username: req.body.username, password: req.body.password 
         })
     })
 })

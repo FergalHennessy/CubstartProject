@@ -14,7 +14,10 @@ async function loginUser(credentials) {
       "Content-Type": "application/json",
     },
     body: JSON.stringify(credentials),
-  }).then((data) => data.json());
+  }).then((data) => {
+    console.log ("WHAT IS DATA: " +  data)
+    return data.json()
+  });
 }
 
 //what to do on new user request?
@@ -28,20 +31,20 @@ async function newUser(input){
   }).then((data) => data.json());
 }
 
-//TODO : TRANSLATE JQUERY TO JAVASCRIPT
-
 let flag = 0;
 
 export default function Login({ setToken }) {
   const [username, setUserName] = useState<string>();
   const [password, setPassword] = useState<string>(null);
+  const [reqUsername, setReqUsername] = useState<string>()
+  const [reqPassword, setReqPassword] = useState<string>()
+  const [reqEmail, setReqEmail] = useState<string>()
   const ref = useRef({panelTwo: 0, panelOne: 0, panelFlag: 0});
 
-  //MANUALLY TRANSLATED JQUERY ANIMATIONS BEGIN HERE
 
-  let panelOneVisible = true;
-  let panelTwoVisible = false;
-  let formToggleVisible = false;
+  const [panelOneSaved, setPanelOneSaved] = useState(0);
+  const [panelTwoSaved, setPanelTwoSaved] = useState(0);
+  const [panelFlag, setpanelFlag] = useState(0);
 
 
   const handleSubmit = async e => {                       //what to do on submit?
@@ -59,8 +62,9 @@ export default function Login({ setToken }) {
   const handleUserSubmit = async e => {
     e.preventDefault();
     const userData = await newUser({
-      username,
-      password
+      reqUsername,
+      reqPassword,
+      reqEmail
     });
     console.log("USERDATA: " + userData.username + "password: " + userData.password);
   }
@@ -72,8 +76,10 @@ export default function Login({ setToken }) {
     panelTwo = document.getElementsByClassName('form-panel two')[0].scrollHeight;
     console.log("PANELTWO: " + panelTwo);
 
-    ref.current.panelTwo = panelTwo;
-    ref.current.panelOne = panelOne;
+    setPanelTwoSaved(panelTwo);
+    setPanelOneSaved(panelOne);
+
+    console.log("REF CURRENT PANELTWO: " + panelOneSaved + "  " + panelTwoSaved);
     
     let restingForms = [].filter.call(document.getElementsByClassName('form-panel two'), el => !(el.className.indexOf('active') >= 0));
 
@@ -88,7 +94,7 @@ export default function Login({ setToken }) {
         document.getElementsByClassName('form-panel two')[0].classList.add('active');
         (document.getElementsByClassName('form') as HTMLCollectionOf<HTMLElement>)[0].style.height = panelTwo.toString();
         
-        ref.current.panelFlag = 1;
+        setpanelFlag(1);
       })
     }
 
@@ -101,7 +107,7 @@ export default function Login({ setToken }) {
         document.getElementsByClassName('form-panel two')[0].classList.remove('active');
         (document.getElementsByClassName('form') as HTMLCollectionOf<HTMLElement>)[0].style.height = panelOne.toString();
 
-        ref.current.panelFlag = 0;
+        setpanelFlag(0);
       })
 
       console.log(document.getElementsByClassName('form')[0].clientHeight)
@@ -112,10 +118,12 @@ export default function Login({ setToken }) {
     console.log("two pressed!");
   }
 
+
+  
   return (
     <>
       {/* Form*/}
-      <div className="form" style={{height: ref.current.panelFlag? ref.current.panelTwo: ref.current.panelOne}}>
+      <div className="form" style={{height: panelFlag? panelTwoSaved: panelOneSaved}}>
         <div className={"form-toggle"} /> {/*changed from original*/}
         <div className={"form-panel one"}> {/*changed from original*/}
           <div className="form-header">
@@ -165,7 +173,7 @@ export default function Login({ setToken }) {
             <h1>Register Account</h1>
           </div>
           <div className="form-content">
-            <form>
+            <form onSubmit = {handleUserSubmit}>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <input
@@ -173,6 +181,7 @@ export default function Login({ setToken }) {
                   id="username"
                   name="username"
                   required={true}
+                  onChange={e => setReqUsername(e.target.value)}
                 />
               </div>
               <div className="form-group">

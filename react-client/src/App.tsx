@@ -3,6 +3,7 @@ import './App.css';
 import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Login from './components/Login';
+import Admin from './components/Admin';
 import L from 'leaflet';
 import EXIF from 'exif-js';
 import exifr from 'exifr';
@@ -40,7 +41,8 @@ class App extends React.Component {
       {"position" : [37.8750, -122.2555], "size": 200, "icon":"https://i.imgur.com/nfXzOFg.jpeg", "votes": 6},
     ],
     imgsrc: "https://i.imgur.com/U7afLiO.png",
-    innertext: "https://i.imgur.com/U7afLiO.png"
+    innertext: "https://i.imgur.com/U7afLiO.png",
+    isAdmin: "false"
   };
 
   //save username/password object to localStorage
@@ -51,14 +53,15 @@ class App extends React.Component {
   //grep the locally stored username and password as a two-item object. {username, password}
   getToken(){
     const tokenString = localStorage.getItem('token');
+    console.log("TOKENSTRING " + tokenString);
     const userToken = JSON.parse(tokenString);
     console.log("GETTOKEN RETURNS: " + userToken);
     return userToken
   }
 
-   
-  token = this.getToken();
 
+  token = localStorage.getItem('token')==null? this.getToken() : null
+  
   //on page load:
   componentWillMount = ()=>{
     document.title = "🌇  Serendpitiy  🌇";
@@ -172,6 +175,9 @@ class App extends React.Component {
     console.log("this.state.token: \n" + this.state.token.toString());
     return <Login setToken= {(localToken) => (this.setToken(localToken, current))}/>
   }
+  if(this.state.isAdmin == "true"){
+    //return <Admin/>
+  }
     
   return (
     <>
@@ -187,7 +193,7 @@ class App extends React.Component {
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   />
     {this.state.locations.map((location, index)=>(
-      <Marker position={location.position as L.LatLngExpression} icon={GetIcon(100, "logo1")}>
+      <Marker position={location.position as L.LatLngExpression} icon={GetIcon(100, "logo1")} key={index}>
           <Popup>
             <div><p>Votes for this landscape: {location.votes} </p>
             <img src={location.icon} height="200"/><br/>
