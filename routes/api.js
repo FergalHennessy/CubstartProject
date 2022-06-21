@@ -64,7 +64,7 @@ router.post('/login', (req, res) => {
     
     newUser.save((error)=>{
         if(error){
-            res.status(500).json({msg: 'Sorry, internal server errors'});
+            res.status(500).json({msg: 'Sorry111, internal server errors'});
         }
     
         return res.json({
@@ -83,7 +83,7 @@ router.post('/newUser', (req, res) => {
     
     newUser.save((error)=>{
         if(error){
-            res.status(500).json({msg: 'Sorry, internal server errors'});
+            res.status(500).json({msg: 'Sorry222, internal server errors'});
         }
         return res.json({
             msg: "Requesting new user with properties: ", username: req.body.username, password: req.body.password 

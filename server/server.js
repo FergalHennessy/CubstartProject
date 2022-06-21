@@ -13,7 +13,9 @@ app.use(express.urlencoded({extended:false}));
 
 const dbo = require("./db/conn");
 
-const routes = require('../routes/api');
+//use app.use() to specify middleware as the callback function (see using middleware for details)
+app.use(require("./routes/api"));
+
 
 const MONGODB_URI = 'mongodb+srv://fergalh:isthebest@cluster0.mjmfj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
@@ -22,7 +24,7 @@ const MONGODB_URI = 'mongodb+srv://fergalh:isthebest@cluster0.mjmfj.mongodb.net/
 app.use(morgan('tiny'));
 
 app.use(cors());
-app.use('/api', routes);
+//app.use('/api', routes);
 
 
 
@@ -32,7 +34,7 @@ app.listen(PORT, () =>{
     dbo.connectToServer(function (err){
         if(err) console.error(err);
     });
-    console.log('SERVER IS RUNNING ON PORT: ${port}')
+    console.log(`SERVER IS RUNNING ON PORT: ${PORT}`)
 })
 
 /*

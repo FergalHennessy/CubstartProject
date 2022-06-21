@@ -5,11 +5,11 @@ import express from 'express';
 import e from 'express';
 
 
-//what to do on login request?
+//what to do on login request? => get from database this is very insecure or whatever haha
 async function loginUser(credentials) {
 
   return fetch('http://localhost:8080/api/login', {
-    method: "POST",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
     },
@@ -22,7 +22,7 @@ async function loginUser(credentials) {
 
 //what to do on new user request?
 async function newUser(input){
-  return fetch('http://localhost:8080/api/newUser',{
+  return fetch('http://localhost:8080/users/add',{
     method: "POST",
     headers: {
       "Content-Type" : "application/json"
@@ -38,6 +38,7 @@ export default function Login({ setToken }) {
   const [password, setPassword] = useState<string>(null);
   const [reqUsername, setReqUsername] = useState<string>()
   const [reqPassword, setReqPassword] = useState<string>()
+  const [reqPassword2, setReqPassword2] = useState<string>()
   const [reqEmail, setReqEmail] = useState<string>()
   const ref = useRef({panelTwo: 0, panelOne: 0, panelFlag: 0});
 
@@ -45,6 +46,8 @@ export default function Login({ setToken }) {
   const [panelOneSaved, setPanelOneSaved] = useState(0);
   const [panelTwoSaved, setPanelTwoSaved] = useState(0);
   const [panelFlag, setpanelFlag] = useState(0);
+
+  const inputDOM = useRef();
 
 
   const handleSubmit = async e => {                       //what to do on submit?
@@ -58,15 +61,20 @@ export default function Login({ setToken }) {
   }
 
 
-  //broken obviously
+  //feed new user object to the database
   const handleUserSubmit = async e => {
     e.preventDefault();
+    console.log("got to part1 of userSubmit")
+    if(reqPassword !== reqPassword2){
+      return;
+    }
     const userData = await newUser({
-      reqUsername,
-      reqPassword,
-      reqEmail
+      "username": reqUsername,
+      "password": reqPassword,
+      "email": reqEmail,
+      "privilege": "awaitingConfirmation"
     });
-    console.log("USERDATA: " + userData.username + "password: " + userData.password);
+    console.log("USERDATA: " + userData.username + " password: " + userData.password + " email: " + userData.email);
   }
 
 
@@ -173,7 +181,7 @@ export default function Login({ setToken }) {
             <h1>Register Account</h1>
           </div>
           <div className="form-content">
-            <form onSubmit = {handleUserSubmit}>
+            <form onSubmit = {(e)=>{handleUserSubmit(e) && console.log("the form that actually submitted")}}>
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <input
@@ -191,23 +199,28 @@ export default function Login({ setToken }) {
                   id="password"
                   name="password"
                   required={true}
+                  onChange={e => setReqPassword(e.target.value)}
                 />
               </div>
               <div className="form-group">
                 <label htmlFor="cpassword">Confirm Password</label>
                 <input
+                  ref={inputDOM}
                   type="password"
                   id="cpassword"
                   name="cpassword"
                   required={true}
+                  onChange={e => setReqPassword2(e.target.value)}
+                  onInvalid={()=> this.setCustomValidity('Enter User Name Here')}
                 />
               </div>
               <div className="form-group">
                 <label htmlFor="email">Email Address</label>
-                <input type="email" id="email" name="email" required={true} />
+                <input type="email" id="email" name="email" required={true}
+                onChange = {e => setReqEmail(e.target.value)} />
               </div>
               <div className="form-group">
-                <button type="submit">Register</button>
+                <button type="submit" onClick = {handleUserSubmit}>Register</button>
               </div>
             </form>
           </div>
@@ -215,16 +228,16 @@ export default function Login({ setToken }) {
       </div>
       <div className="pen-footer">
         <a
-          //href="https://www.behance.net/gallery/30478397/Login-Form-UI-Library"
+          href="https://github.com/FergalHennessy/CubstartProject"
           target="_blank"
         >
-          <i className="material-icons">arrow_backward</i>View on Behance
+          ↩ View this project on Github
         </a>
         <a
-          //href="https://github.com/andyhqtran/UI-Library/tree/master/Login%20Form"
+          href="https://discord.gg/JHqBspTMDR"
           target="_blank"
         >
-          View on Github<i className="material-icons">arrow_forward</i>
+          Join my Discord! ↪
         </a>
       </div>
 

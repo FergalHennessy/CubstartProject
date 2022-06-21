@@ -69,9 +69,10 @@ class App extends React.Component {
     this.getImagePost();
   }
 
+  //-----------------------------------HTTP REQUESTS USING AXIOS-----------------------------------
   //getBlogPost fetches js objects from /api, then runs setState so that they are stored in the local State object Error retreiving data => error with database fetch.
   getBlogPost = () =>{
-    axios.get('/api')
+    axios.get('/blogPosts')
       .then((response) => {
         const data = response.data;
         this.setState({posts: data});
@@ -84,7 +85,7 @@ class App extends React.Component {
 
   //getImagePost fetches js objects from /api/imagePosts, then runs setState so that they are stored in the local State object Error retreiving data => error with database fetch.
   getImagePost = () =>{
-    axios.get('/api/imagePosts')
+    axios.get('/imagePosts')
       .then((response) => {
         const data = response.data;
         this.setState({random: data});
@@ -181,7 +182,10 @@ class App extends React.Component {
     
   return (
     <>
-    {/*MAIN APPLICATION*/}
+
+
+
+    {/*MAP PORTION*/}
     <MapContainer center={[37.869061, -122.270462]} zoom={13} scrollWheelZoom={true}>
         
     
@@ -209,6 +213,9 @@ class App extends React.Component {
 
 
 </MapContainer>
+
+
+{/*POSTING PORTION*/}
 
 <h1>Posting to website</h1>
 <img src={this.state.imgsrc} id="img" height="200px"/>
@@ -244,12 +251,12 @@ class App extends React.Component {
 
 
 
-
+        {/*
         <div className = "blog-">
           {this.displayBlogPost(this.state.posts)}
-          {/*console.log(this.state)*/}
+          
         </div>
-      
+      */}
         {/*ANY OTHER PAGES*/}
 
       </>
