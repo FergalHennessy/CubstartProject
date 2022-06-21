@@ -6,7 +6,10 @@ const app = express();
 const cors = require('cors');
 const multer = require('multer');
 const upload = multer({dest: __dirname + '/uploads/images'});
+require("dotenv").config({path: "./config.env"});
 const PORT = process.env.PORT || 8080;   
+app.use(cors());
+
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
@@ -22,7 +25,6 @@ app.use(require("./routes/api"));
 //HTTP request logger
 app.use(morgan('tiny'));
 
-app.use(cors());
 //app.use('/api', routes);
 
 
