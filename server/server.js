@@ -6,7 +6,7 @@ const app = express();
 const cors = require('cors');
 const multer = require('multer');
 const upload = multer({dest: __dirname + '/uploads/images'});
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;   
 
 app.use(express.json());
 app.use(express.urlencoded({extended:false}));
@@ -17,7 +17,6 @@ const dbo = require("./db/conn");
 app.use(require("./routes/api"));
 
 
-const MONGODB_URI = 'mongodb+srv://fergalh:isthebest@cluster0.mjmfj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
 
 
 //HTTP request logger
