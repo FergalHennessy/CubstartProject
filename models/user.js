@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
 //Schema - new user with username, password, date, adminStatus
+//tHiS iS sO iNsEcUrE - you, a virgin
 const schema = mongoose.Schema;
 const UserSchema = new schema({
     username: String,
