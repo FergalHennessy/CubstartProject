@@ -29,10 +29,11 @@ recordRoutes.route("/users").get(function (req, res){
         });
 })
 
-//GET A USER BY ID
+//PULL ALL USER INFORMATION FROM THEIR USERNAME
 recordRoutes.route("/users/:id").get(function(req, res){
     let db_connect = dbo.getDb();
-    let myquery = { _id: ObjectId( req.params.id)};
+    //let myquery = { _id: ObjectId( req.params.id)};
+    let myquery = {username: req.params.id};
     db_connect
         .collection("users")
         .findOne(myquery, function(err, result){
@@ -45,9 +46,10 @@ recordRoutes.route("/users/:id").get(function(req, res){
 recordRoutes.route("/users/add").post(function (req, response) {
     let db_connect = dbo.getDb();
     let myobj = {
-      name: req.body.name,
-      position: req.body.position,
-      level: req.body.level,
+      username: req.body.username,
+      password: req.body.password,
+      email: req.body.email,
+      privilege: req.body.privilege
     };
     db_connect.collection("users").insertOne(myobj, function (err, res) {
       if (err) throw err;

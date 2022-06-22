@@ -6,23 +6,22 @@ import e from 'express';
 
 
 //what to do on login request? => get from database this is very insecure or whatever haha
-async function loginUser(credentials) {
+//technically this is what cryptography is used for, but I obiously didn't pay attention in class
+async function attemptLogin(credentials) {
 
-  return fetch('http://localhost:8080/api/login', {
+  return fetch(`/users/${credentials.username}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-    },
-    body: JSON.stringify(credentials),
+    }
   }).then((data) => {
-    console.log ("WHAT IS DATA: " +  data)
     return data.json()
   });
 }
 
 //what to do on new user request?
 async function newUser(input){
-  return fetch('http://localhost:8080/users/add',{
+  return fetch('/users/add',{
     method: "POST",
     headers: {
       "Content-Type" : "application/json"
@@ -41,40 +40,68 @@ export default function Login({ setToken }) {
   const [reqPassword2, setReqPassword2] = useState<string>()
   const [reqEmail, setReqEmail] = useState<string>()
   const ref = useRef({panelTwo: 0, panelOne: 0, panelFlag: 0});
+  const loginInputRef = useRef(null);
+  const loginSubmitRef = useRef(null);
+  const inputDOM = useRef(null);
 
 
   const [panelOneSaved, setPanelOneSaved] = useState(0);
   const [panelTwoSaved, setPanelTwoSaved] = useState(0);
   const [panelFlag, setpanelFlag] = useState(0);
 
-  const inputDOM = useRef();
+  
 
 
   const handleSubmit = async e => {                       //what to do on submit?
     e.preventDefault();
-    const token = await loginUser({
+    const token = await attemptLogin({
       username,
       password
     });
-    setToken(token);
-    console.log("TOKEN: " +token.username + " " + token.password);                                 //what is our current token
+    if(token !== null && password === token.password){
+      console.log("good login")
+      setToken(token);
+    }else { //bad login! update validity.
+      console.log("bad login");
+      loginInputRef.current.setCustomValidity("Password does not match username :(");
+      loginInputRef.current.reportValidity();
+    }
+
+    console.log("TOKEN: " +token?.username + " " + token?.password + " INPUTPW: " + password);                                 //what is our current token
   }
 
 
   //feed new user object to the database
+  //LOCALSTORAGE SET TO {TOKEN: {"acknowledged": true, "insertedID": 0xx}}
   const handleUserSubmit = async e => {
     e.preventDefault();
     console.log("got to part1 of userSubmit")
-    if(reqPassword !== reqPassword2){
-      return;
-    }
-    const userData = await newUser({
+    let user = {
       "username": reqUsername,
       "password": reqPassword,
       "email": reqEmail,
       "privilege": "awaitingConfirmation"
-    });
-    console.log("USERDATA: " + userData.username + " password: " + userData.password + " email: " + userData.email);
+    }
+    
+    const doesUserExist = await attemptLogin({"username": reqUsername,"password": reqPassword})
+    console.log("DOESUSEREXIST: " + doesUserExist);
+
+    if(reqPassword !== reqPassword2){
+      console.log("bad login")
+      loginInputRef.current.setCustomValidity("Error: passwords do not match");
+      loginInputRef.current.reportValidity();                          
+    }else if(doesUserExist){
+      loginInputRef.current.setCustomValidity("Error: user already exists");
+      loginInputRef.current.reportValidity();
+    }else{
+        const userData = await newUser(user);
+        if(userData !== null){
+          console.log("TOKEN SET TO userData!!!!!!!!!!");
+          setToken(userData);                                 //NOTE THAT THIS IS NOT FORMATTED CORRECTLY
+      }
+    }
+    
+    
   }
 
 
@@ -91,13 +118,11 @@ export default function Login({ setToken }) {
     
     let restingForms = [].filter.call(document.getElementsByClassName('form-panel two'), el => !(el.className.indexOf('active') >= 0));
 
-    console.log("restingForm: " + restingForms[0]);
 
     for(let neededElement of (restingForms as HTMLCollectionOf<HTMLElement>)){
       neededElement.addEventListener('click', function(e){
         e.preventDefault();
         document.getElementsByClassName('form-toggle')[0].classList.add('visible');
-        console.log("CLICKED OPEN AND " + document.getElementsByClassName('form-toggle')[0].classList);
         document.getElementsByClassName('form-panel one')[0].classList.add('hidden');
         document.getElementsByClassName('form-panel two')[0].classList.add('active');
         (document.getElementsByClassName('form') as HTMLCollectionOf<HTMLElement>)[0].style.height = panelTwo.toString();
@@ -110,7 +135,7 @@ export default function Login({ setToken }) {
 
       formToggle.addEventListener('click', function(e){
         e.preventDefault();        formToggle.classList.remove('visible');
-        console.log("CLICKED SHUT AND " + document.getElementsByClassName('form-toggle')[0].classList);
+        //console.log("CLICKED SHUT AND " + document.getElementsByClassName('form-toggle')[0].classList);
         document.getElementsByClassName('form-panel one')[0].classList.remove('hidden');
         document.getElementsByClassName('form-panel two')[0].classList.remove('active');
         (document.getElementsByClassName('form') as HTMLCollectionOf<HTMLElement>)[0].style.height = panelOne.toString();
@@ -138,7 +163,7 @@ export default function Login({ setToken }) {
             <h1>Account Login</h1>
           </div>
           <div className="form-content">
-            <form onSubmit={handleSubmit}>  {/* handleSubmit passed down from parent: it is a hook to update the sessionStorage of our client*/}
+            <form onSubmit={handleSubmit} >  {/* handleSubmit passed down from parent: it is a hook to update the sessionStorage of our client*/}
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 {/* change occurs to username field => hook out to logintsx username variable and update the frame*/}
@@ -147,18 +172,25 @@ export default function Login({ setToken }) {
                   id="usernameTWO"
                   name="username"
                   required={true}
-                  onChange={e => setUserName(e.target.value)}
+                  onChange={
+                    e => {setUserName(e.target.value);
+                    loginInputRef.current.setCustomValidity('');
+                  }}
                 />
               </div>
               <div className="form-group">
                 <label htmlFor="password">Password</label>
                 {/* change occurs to username field => hook out to logintsx password variable and update the frame*/}
                 <input
+                  ref={loginInputRef}
                   type="password"
                   id="passwordTWO"
                   name="password"
                   required={true}
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={e => {
+                    setPassword(e.target.value);
+                    loginInputRef.current.setCustomValidity('');
+                  }}
                 />
               </div>
               <div className="form-group">
@@ -171,7 +203,7 @@ export default function Login({ setToken }) {
                 </a>
               </div>
               <div className="form-group">
-                <button type="submit">Log In</button>
+                <button type="submit" >Log In</button>
               </div>
             </form>
           </div>
@@ -189,7 +221,10 @@ export default function Login({ setToken }) {
                   id="username"
                   name="username"
                   required={true}
-                  onChange={e => setReqUsername(e.target.value)}
+                  onChange={e => {
+                    setReqUsername(e.target.value)
+                    inputDOM.current.setCustomValidity('');}
+                  }
                 />
               </div>
               <div className="form-group">
@@ -199,7 +234,10 @@ export default function Login({ setToken }) {
                   id="password"
                   name="password"
                   required={true}
-                  onChange={e => setReqPassword(e.target.value)}
+                  onChange={e => {
+                    setReqPassword(e.target.value)
+                    inputDOM.current.setCustomValidity('');}
+                  }
                 />
               </div>
               <div className="form-group">
@@ -210,8 +248,10 @@ export default function Login({ setToken }) {
                   id="cpassword"
                   name="cpassword"
                   required={true}
-                  onChange={e => setReqPassword2(e.target.value)}
-                  onInvalid={()=> this.setCustomValidity('Enter User Name Here')}
+                  onChange={e => {
+                     setReqPassword2(e.target.value);
+                     inputDOM.current.setCustomValidity('');
+                    }}
                 />
               </div>
               <div className="form-group">

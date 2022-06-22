@@ -25,8 +25,6 @@ app.use(require("./routes/api"));
 //HTTP request logger
 app.use(morgan('tiny'));
 
-//app.use('/api', routes);
-
 
 
 

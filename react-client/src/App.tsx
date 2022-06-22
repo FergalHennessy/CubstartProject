@@ -59,12 +59,12 @@ class App extends React.Component {
     return userToken
   }
 
-
-  token = localStorage.getItem('token')==null? this.getToken() : null
+ 
   
-  //on page load:
+  //on page load, get all posts and determine the login status of the user: should be done by id rather than however the fuck it is now
   componentWillMount = ()=>{
     document.title = "🌇  Serendpitiy  🌇";
+    this.setState(() => ({"token": this.getToken()}))
     this.getBlogPost();
     this.getImagePost();
   }
@@ -171,9 +171,11 @@ class App extends React.Component {
   
   render(){
   //no username/password in localStorage? load the Login component
-  if(!this.state.token){
+  if(this.state.token == null || !this.state.token){
     const current = this;
-    console.log("this.state.token: \n" + this.state.token.toString());
+    if(this.state.token !== null){
+      console.log("this.state.token: \n" + this.state.token.toString());
+    }
     return <Login setToken= {(localToken) => (this.setToken(localToken, current))}/>
   }
   if(this.state.isAdmin == "true"){
@@ -193,7 +195,6 @@ class App extends React.Component {
     
 
     <TileLayer
-    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
   />
     {this.state.locations.map((location, index)=>(
