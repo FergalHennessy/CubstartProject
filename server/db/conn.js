@@ -1,4 +1,4 @@
-
+//Have forgot almost completely everything that this does
 const {MongoClient} = require("mongodb");
 
 const Db = "mongodb+srv://fergalh:isthebest@cluster0.mjmfj.mongodb.net/myFirstDatabase?retryWrites=true&w=majority";

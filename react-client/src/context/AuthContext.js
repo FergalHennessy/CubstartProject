@@ -1,3 +1,5 @@
+//Provides context incorporating current user, fetching status and error status
+
 import { createContext, useEffect, useReducer } from "react";
 import AuthReducer from "./AuthReducer";
 

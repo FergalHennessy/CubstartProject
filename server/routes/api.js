@@ -15,7 +15,7 @@ const ObjectId = require("mongodb").ObjectId;
 //---------------------------------SCHEMAS-----------------------------------------//
 const BlogPost = require('../../models/blogPost');
 const ImagePost = require('../../models/imagePost');
-const User = require('../../models/user');
+const User = require('../../models/User');
 
 //-----------------------------------USERS----------------------------------------//
 

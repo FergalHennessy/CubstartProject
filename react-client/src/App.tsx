@@ -4,6 +4,7 @@ import { MapContainer, TileLayer, Marker, Popup} from 'react-leaflet';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Login from './components/Login';
 import Admin from './components/Admin';
+import Topbar from './components/topbar/Topbar'
 import L from 'leaflet';
 import EXIF from 'exif-js';
 import exifr from 'exifr';
@@ -185,7 +186,7 @@ class App extends React.Component {
   return (
     <>
 
-
+    {/*<Topbar/>}
 
     {/*MAP PORTION*/}
     <MapContainer center={[37.869061, -122.270462]} zoom={13} scrollWheelZoom={true}>
